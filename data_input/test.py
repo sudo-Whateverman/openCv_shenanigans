@@ -1,34 +1,18 @@
 __author__ = 'EL13115'
 import os
 import time
-
+import sys
 import cv2
 
 
 class main_args():
     def __init__(self):
-        self.url = 'C:\Documents and Settings\EL13115\Desktop\Megamind.avi'
-        self.urleye = 'C:\Documents and Settings\EL13115\My' \
-                      ' Documents\Downloads\opencv\sources\data\haarcascades\haarcascade_eye.xml'
-        self.urlface = 'C:\Documents and Settings\EL13115\My' \
-                       ' Documents\Downloads\opencv\sources\data\haarcascades\haarcascade_frontalface_default.xml'
+        self.urlface = '/home/nick/opencv/data/haarcascades_cuda/haarcascade_frontalface_default.xml'
+        self.urleye = '/home/nick/opencv/data/haarcascades_cuda/haarcascade_eye.xml'
 
 
 def main(init_class):
-    # img = cv2.imread(url,0)
-    # cv2.imshow('image', img)
-    # k = cv2.waitKey(0)
-    # if k==27:
-    #     cv2.destroyAllWindows()
-
-    # plt.imshow(img, cmap='gray', interpolation='bicubic')
-    # plt.imshow(img)
-    # plt.xticks([]), plt.yticks([])
-    # plt.show()
-
-    cap = cv2.VideoCapture(init_class.url)
-    print os.path.exists(init_class.url)
-    print os.path.exists(init_class.urleye)
+    cap = cv2.VideoCapture(0)
     print cap.isOpened()
 
     face_cascade = cv2.CascadeClassifier(init_class.urlface)
@@ -41,7 +25,7 @@ def main(init_class):
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             faces = face_cascade.detectMultiScale(gray, 1.3, 5)
             for (x, y, w, h) in faces:
-                frame = cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
+                cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
                 roi_gray = gray[y:y + h, x:x + w]
                 roi_color = frame[y:y + h, x:x + w]
                 eyes = eye_cascade.detectMultiScale(roi_gray)
